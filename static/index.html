@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auto VPN DNS inventory</title>
+  <link rel="icon" href="/static/favicon.png" type="image/png" sizes="128x128">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="brand">
+      <img class="logo" src="/static/favicon.png" alt="">
+      <div>
+        <h1>Auto VPN DNS inventory</h1>
+        <p>Auto VPN roles, hub priority, and VLAN 1 DHCP DNS on the MX and switches</p>
+      </div>
+    </div>
+    <span class="pill">Read only</span>
+  </header>
+
+  <main>
+    <p id="flash" class="banner hidden"></p>
+
+    <section id="key-card" class="card key-card hidden">
+      <h2>Dashboard API key</h2>
+      <p>No key was found in the MK_CSM_KEY environment variable. Paste a read-only key to use for this run.</p>
+      <ul>
+        <li>The key stays in this server's memory until you stop the server.</li>
+        <li>It is not written to a file, the log, the environment, or browser storage.</li>
+        <li>If the browser offers to save it, decline.</li>
+      </ul>
+      <label class="field">
+        <span>Read-only API key</span>
+        <input id="api-key" type="password" autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off">
+      </label>
+      <button id="use-key" type="button" class="primary">Use key for this run</button>
+    </section>
+
+    <section class="card controls">
+      <label class="field grow">
+        <span>Organization</span>
+        <select id="org" disabled><option value="">Loading organizations…</option></select>
+      </label>
+      <label class="toggle">
+        <input id="tunnels" type="checkbox">
+        <span>Include tunnel status</span>
+        <small>One extra organization-wide read</small>
+      </label>
+      <button id="scan" type="button" class="primary" disabled>Scan organization</button>
+    </section>
+
+    <section id="progress-card" class="card progress-card hidden">
+      <div class="progress-head">
+        <span id="progress-label">Starting…</span>
+        <span id="progress-count"></span>
+      </div>
+      <progress id="progress-bar" max="100" value="0"></progress>
+    </section>
+
+    <section id="results" class="hidden">
+      <div id="summary" class="chips"></div>
+
+      <div class="card toolbar">
+        <label class="field grow">
+          <span>Search</span>
+          <input id="search" type="search" placeholder="Network, hub, DNS server, note…" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>Auto VPN role</span>
+          <select id="f-role"></select>
+        </label>
+        <label class="field">
+          <span>Hub</span>
+          <select id="f-hub"></select>
+        </label>
+        <label class="field">
+          <span>MX VLAN 1</span>
+          <select id="f-mx"></select>
+        </label>
+        <label class="field">
+          <span>Switch L3</span>
+          <select id="f-l3"></select>
+        </label>
+        <label class="field">
+          <span>Switch VLAN 1 DHCP</span>
+          <select id="f-sw"></select>
+        </label>
+        <label class="toggle compact">
+          <input id="f-notes" type="checkbox">
+          <span>Only rows with notes</span>
+        </label>
+        <div class="toolbar-actions">
+          <button id="reset" type="button" class="ghost">Reset filters</button>
+          <a id="export" class="button" href="/api/export.csv" download>Export full CSV</a>
+        </div>
+      </div>
+
+      <p id="table-meta" class="meta"></p>
+      <div class="table-wrap">
+        <table id="grid">
+          <thead><tr id="grid-head"></tr></thead>
+          <tbody id="grid-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

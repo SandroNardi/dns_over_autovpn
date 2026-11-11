@@ -1,0 +1,20 @@
+[project]
+name = "autovpn-dns-inventory"
+version = "0.1.0"
+description = "Local, read-only web page that inventories Meraki Auto VPN roles, hub priority, and VLAN 1 DHCP DNS on MX appliances and switches."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Sandro Nardi" }]
+requires-python = ">=3.11"
+dependencies = [
+    "meraki>=1.46.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
